@@ -99,7 +99,7 @@ class UserViewSet(  mixins.RetrieveModelMixin,
         response = super(UserViewSet, self).retrieve(request, *args, **kwargs)
         circles = Circle.objects.filter(
             members=request.user,
-            membership__is_activate=True
+            membership__is_active=True
         )
         data = {
             'user' : response.data,

@@ -23,7 +23,7 @@ class MembershipModelSerializer(serializers.ModelSerializer):
         fields = (
             'user',
             'is_admin', 'is_active',
-            'used_invitations', 'remaining_invitation',
+            'used_invitations', 'remaining_invitations',
             'invited_by',
             'rides_taken', 'rides_offered',
             'joined_at'

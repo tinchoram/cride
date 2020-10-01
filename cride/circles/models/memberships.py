@@ -38,7 +38,7 @@ class Membership(CRideModel):
     rides_offered = models.PositiveIntegerField(default=0)
 
     # Status
-    is_activate = models.BooleanField(
+    is_active = models.BooleanField(
         'active status',
         default = True,
         help_text = "Only active users are allowed to interact in the circle."
