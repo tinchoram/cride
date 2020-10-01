@@ -66,12 +66,12 @@ target/
 celerybeat-schedule
 
 # Environments
-.envs*
+.envs
 .venv/*
 .envs/*
 venv/*
 ENV/*
-.local/*
+.envs/.local/
 
 # Rope project settings
 .ropeproject
@@ -155,6 +155,7 @@ typings/
 
 
 ### VisualStudioCode template
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
