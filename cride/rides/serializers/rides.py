@@ -163,6 +163,8 @@ class JoinRideSerializer(serializers.ModelSerializer):
         user = self.context['user']
 
         ride.passengers.add(user)
+        ride.available_seats -= 1
+        ride.save()
 
         # Profile
         profile = user.profile
