@@ -30,7 +30,7 @@ ROOT_URLCONF = 'config.urls'
 # WSGI
 WSGI_APPLICATION = 'config.wsgi.application'
 
-#User & Autentication
+# User & Autentication
 AUTH_USER_MODEL = 'users.User'
 
 # Apps
@@ -160,7 +160,7 @@ CELERYD_TASK_TIME_LIMIT = 5 * 60
 CELERYD_TASK_SOFT_TIME_LIMIT = 60
 
 
-#Django REST Framework
+# Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',

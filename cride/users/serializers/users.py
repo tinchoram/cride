@@ -1,28 +1,27 @@
-"""Users serializer."""
+"""Users serializers."""
 
-#Django
+# Django
 from django.conf import settings
 from django.contrib.auth import password_validation, authenticate
-from django.core.mail import EmailMultiAlternatives
 from django.core.validators import RegexValidator
-from django.template.loader import render_to_string
-from django.utils import timezone
 
-#Django REST Framework
+# Django REST Framework
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
-
-#Models
+# Models
 from cride.users.models import User, Profile
 
-#Serializer
+# Tasks
+from cride.taskapp.tasks import send_confirmation_email
+
+# Serializers
 from cride.users.serializers.profiles import ProfileModelSerializer
 
-#Utilities
+# Utilities
 import jwt
-from datetime import timedelta
+
 
 class UserModelSerializer(serializers.ModelSerializer):
     """User model Serializer."""
@@ -43,6 +42,7 @@ class UserModelSerializer(serializers.ModelSerializer):
 
         )
 
+
 class UserSignUpSerializer(serializers.Serializer):
     """User sign up serializer.
 
@@ -52,23 +52,23 @@ class UserSignUpSerializer(serializers.Serializer):
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
     username = serializers.CharField(
-        min_length = 4,
+        min_length=4,
         max_length=20,
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
 
-    #Phone number
+    # Phone number
     phone_regex = RegexValidator(
-        regex =r'\+?1?\d{9,15}$',
-        message = 'phone number must be entered in the format: +999999999. Up to 15 digits allowed.'
+        regex=r'\+?1?\d{9,15}$',
+        message='phone number must be entered in the format: +999999999. Up to 15 digits allowed.'
     )
     phone_number = serializers.CharField(validators=[phone_regex])
 
-    #Password
+    # Password
     password = serializers.CharField(min_length=8, max_length=64)
     password_confirmation = serializers.CharField(min_length=8, max_length=64)
 
-    #Name
+    # Name
     first_name = serializers.CharField(min_length=2, max_length=30)
     last_name = serializers.CharField(min_length=2, max_length=30)
 
@@ -86,32 +86,9 @@ class UserSignUpSerializer(serializers.Serializer):
         data.pop('password_confirmation')
         user = User.objects.create_user(**data, is_verified=False, is_client=True)
         Profile.objects.create(user=user)
-        self.send_confirmation_email(user)
+        send_confirmation_email.delay(user_pk=user.pk)
         return user
 
-    def send_confirmation_email(self, user):
-        """Send account verification link to given user."""
-        verification_token = self.gen_verification_token(user)
-        subject = 'Welcome @{}! Verify your account to start using Comparte Ride'.format(user.username)
-        from_email = 'Comparte Ride <noreply@comparteride.com>'
-        content = render_to_string(
-            'emails/users/account_verification.html',
-            {'token' : verification_token, 'user' : user}
-        )
-        msg = EmailMultiAlternatives(subject, content, from_email, [user.email])
-        msg.attach_alternative(content, "text/html")
-        msg.send()
-
-    def gen_verification_token(self, user):
-        """Create JWT token that the user can use to verify its account."""
-        exp_date = timezone.now() + timedelta(days=3)
-        payload = {
-            'user' : user.username,
-            'exp' : int(exp_date.timestamp()),
-            'type' : 'email_confirmation'
-        }
-        token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
-        return token.decode()
 
 class UserLoginSerializer(serializers.Serializer):
     """User Login Serializer.

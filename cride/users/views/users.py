@@ -1,11 +1,11 @@
 """Users Views."""
 
-#Django REST Framework
+# Django REST Framework
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-#Permission
+# Permission
 from rest_framework.permissions import (
     AllowAny,
     IsAuthenticated,
@@ -23,13 +23,12 @@ from cride.users.serializers import (
     AccountVerificationSerializer
     )
 
-#Model
+# Model
 from cride.users.models import User
 from cride.circles.models import Circle
 
-class UserViewSet(  mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    viewsets.GenericViewSet):
+
+class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     """User view set.
     Handle sign up, login and account verification.
     """
@@ -45,7 +44,7 @@ class UserViewSet(  mixins.RetrieveModelMixin,
         elif self.action in ['retrieve', 'update', 'partial_update', 'profile']:
             permissions = [IsAuthenticated, IsAccountOwner]
         else:
-            permissions  = [IsAdminUser]
+            permissions = [IsAdminUser]
         return [permission() for permission in permissions]
 
     @action(detail=False, methods=['post'])
@@ -53,10 +52,10 @@ class UserViewSet(  mixins.RetrieveModelMixin,
         """User sign in."""
         serializer = UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user , token = serializer.save()
+        user, token = serializer.save()
         data = {
-            'user' : UserModelSerializer(user).data,
-            'access_token' : token
+            'user': UserModelSerializer(user).data,
+            'access_token': token
         }
         return Response(data, status=status.HTTP_201_CREATED)
 
@@ -75,7 +74,7 @@ class UserViewSet(  mixins.RetrieveModelMixin,
         serializer = AccountVerificationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        data = {'message' : 'Congratulation, now go share some rides!'}
+        data = {'message': 'Congratulation, now go share some rides!'}
         return Response(data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['put', 'patch'])
@@ -102,8 +101,8 @@ class UserViewSet(  mixins.RetrieveModelMixin,
             membership__is_active=True
         )
         data = {
-            'user' : response.data,
-            'circles' : CircleModelSerializer(circles, many=True).data
+            'user': response.data,
+            'circles': CircleModelSerializer(circles, many=True).data
         }
         response.data = data
         return response

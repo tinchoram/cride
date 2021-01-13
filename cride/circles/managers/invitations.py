@@ -1,9 +1,9 @@
 """Circle invitation managers."""
 
-#Django
+# Django
 from django.db import models
 
-#Utilities
+# Utilities
 import random
 from string import ascii_uppercase, digits
 

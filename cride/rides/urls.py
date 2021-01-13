@@ -1,12 +1,12 @@
 """Rides Urls."""
 
-#Django
+# Django
 from django.urls import include, path
 
-#Django REST Framework
+# Django REST Framework
 from rest_framework.routers import DefaultRouter
 
-#Views
+# Views
 from .views import rides as ride_views
 
 router = DefaultRouter()
@@ -17,5 +17,5 @@ router.register(
 )
 
 urlpatterns = [
-    path ('', include(router.urls))
+    path('', include(router.urls))
 ]

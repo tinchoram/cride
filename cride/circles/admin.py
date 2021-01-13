@@ -1,10 +1,11 @@
 """Circles admin."""
 
-#Django
+# Django
 from django.contrib import admin
 
-#Model
+# Model
 from cride.circles.models import Circle
+
 
 @admin.register(Circle)
 class CircleAdmin(admin.ModelAdmin):

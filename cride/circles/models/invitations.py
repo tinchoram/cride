@@ -1,14 +1,13 @@
 """Circle invitation models."""
 
-#Django
+# Django
 from django.db import models
 
-#Utilities
+# Utilities
 from cride.utils.models import CRideModel
 
-#Managers
+# Managers
 from cride.circles.managers import InvitationManager
-
 
 
 class Invitation(CRideModel):
@@ -40,7 +39,7 @@ class Invitation(CRideModel):
     used = models.BooleanField(default=False)
     used_at = models.DateTimeField(blank=True, null=True)
 
-    #Manager
+    # Manager
     objects = InvitationManager()
 
     def __str__(self):

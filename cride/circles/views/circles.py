@@ -1,33 +1,34 @@
 """Circles views."""
 
-#Django REST Framework
+# Django REST Framework
 from rest_framework import mixins, viewsets
 
-#Permission
+# Permission
 from rest_framework.permissions import IsAuthenticated
 from cride.circles.permissions.circles import IsCircleAdmin
 
-#filters
+# filters
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
-#Serializer
+# Serializer
 from cride.circles.serializers import CircleModelSerializer
 
-#Models
+# Models
 from cride.circles.models import Circle, Membership
 
+
 class CircleViewSet(mixins.CreateModelMixin,
-                   mixins.RetrieveModelMixin,
-                   mixins.UpdateModelMixin,
-                   mixins.ListModelMixin,
-                   viewsets.GenericViewSet):
+                    mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
     """Circles view set."""
 
     serializer_class = CircleModelSerializer
     lookup_field = 'slug_name'
 
-    #Filters
+    # Filters
     filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
     search_fields = ('slug_name', 'name')
     ordering_fields = ('rides_offered', 'rides_taken', 'name', 'created', 'member_limit')

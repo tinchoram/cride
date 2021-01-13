@@ -1,20 +1,21 @@
 """Circle memberships view."""
 
-#REST framework
+# REST framework
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
-#Serializer
+# Serializer
 from cride.circles.serializers import MembershipModelSerializer, AddMemberSerializer
 
-#Permissions
+# Permissions
 from rest_framework.permissions import IsAuthenticated
 from cride.circles.permissions.memberships import IsActiveCircleMember, IsSelfMember
 
-#Models
+# Models
 from cride.circles.models import Circle, Membership, Invitation
+
 
 class MembershipViewSet(mixins.ListModelMixin,
                         mixins.CreateModelMixin,
@@ -72,7 +73,7 @@ class MembershipViewSet(mixins.ListModelMixin,
 
         member = self.get_object()
 
-        invited_members= Membership.objects.filter(
+        invited_members = Membership.objects.filter(
             circle=self.circle,
             invited_by=request.user,
             is_active=True
@@ -95,8 +96,8 @@ class MembershipViewSet(mixins.ListModelMixin,
             )
 
         data = {
-            'used_invitations' : MembershipModelSerializer(invited_members, many=True).data,
-            'invitations' : invitations
+            'used_invitations': MembershipModelSerializer(invited_members, many=True).data,
+            'invitations': invitations
         }
         return Response(data)
 
@@ -104,7 +105,7 @@ class MembershipViewSet(mixins.ListModelMixin,
         """Handle member creation from invitation code."""
         serializer = AddMemberSerializer(
             data=request.data,
-            context={'circle' : self.circle, 'request' : request}
+            context={'circle': self.circle, 'request': request}
         )
         print(request.data)
         serializer.is_valid(raise_exception=True)

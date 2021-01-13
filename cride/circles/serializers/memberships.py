@@ -1,16 +1,17 @@
 """Membership serializers."""
 
-#DJango REST Framework
+# DJango REST Framework
 from rest_framework import serializers
 
-#Django Utilities
+# Django Utilities
 from django.utils import timezone
 
-#Serializer
+# Serializer
 from cride.users.serializers import UserModelSerializer
 
-#Model
+# Model
 from cride.circles.models import Membership, Invitation
+
 
 class MembershipModelSerializer(serializers.ModelSerializer):
     """Member model serializer"""
@@ -38,6 +39,7 @@ class MembershipModelSerializer(serializers.ModelSerializer):
             'invited_by',
             'rides_taken', 'rides_offered'
         )
+
 
 class AddMemberSerializer(serializers.Serializer):
     """Add member serializer.
@@ -82,7 +84,7 @@ class AddMemberSerializer(serializers.Serializer):
         """Create new circle member."""
         circle = self.context['circle']
         invitation = self.context['invitation']
-        #user = data['user']
+        # user = data['user']
         user = self.context['request'].user
 
         now = timezone.now()
@@ -95,21 +97,16 @@ class AddMemberSerializer(serializers.Serializer):
             invited_by=invitation.issued_by
         )
 
-        #Update Invitation
+        # Update Invitation
         invitation.used_by = user
         invitation.used = True
         invitation.used_at = now
         invitation.save()
 
-        #Update issued data
+        # Update issued data
         issuer = Membership.objects.get(user=invitation.issued_by, circle=circle)
-        issuer.used_invitations +=1
-        issuer.remaining_invitations -=1
+        issuer.used_invitations += 1
+        issuer.remaining_invitations -= 1
         issuer.save()
 
         return member
-
-
-
-
-

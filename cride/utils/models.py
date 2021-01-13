@@ -1,7 +1,8 @@
 """django models utilities"""
 
-#Django
+# Django
 from django.db import models
+
 
 class CRideModel(models.Model):
     """Comparte Ride base model.
@@ -15,14 +16,14 @@ class CRideModel(models.Model):
 
     created = models.DateTimeField(
         'created at',
-        auto_now_add = True,
-        help_text = 'the datetime the object was created'
+        auto_now_add=True,
+        help_text='the datetime the object was created'
     )
 
     modified = models.DateTimeField(
         'modified at',
-        auto_now = True,
-        help_text = 'the datetime the object was modified'
+        auto_now=True,
+        help_text='the datetime the object was modified'
     )
 
     class Meta:

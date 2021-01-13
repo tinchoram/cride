@@ -3,8 +3,9 @@
 # Django
 from django.db import models
 
-#Utilities
+# Utilities
 from cride.utils.models import CRideModel
+
 
 class Membership(CRideModel):
     """ Membership model.
@@ -40,8 +41,8 @@ class Membership(CRideModel):
     # Status
     is_active = models.BooleanField(
         'active status',
-        default = True,
-        help_text = "Only active users are allowed to interact in the circle."
+        default=True,
+        help_text="Only active users are allowed to interact in the circle."
     )
 
     def __str__(self):
@@ -50,5 +51,3 @@ class Membership(CRideModel):
             self.user.username,
             self.circle.slug_name
         )
-
-

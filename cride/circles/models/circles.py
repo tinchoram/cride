@@ -1,10 +1,11 @@
 """circle Model"""
 
-#django
+# django
 from django.db import models
 
-#Utilities
+# Utilities
 from cride.utils.models import CRideModel
+
 
 class Circle(CRideModel):
     """Circle Model.
@@ -15,7 +16,7 @@ class Circle(CRideModel):
     """
 
     name = models.CharField('circle name', max_length=50)
-    slug_name = models.SlugField(unique=True , max_length=40)
+    slug_name = models.SlugField(unique=True, max_length=40)
 
     about = models.CharField('circle description', max_length=255)
     picture = models.FileField(upload_to='circles/pictures', blank=True, null=True)
@@ -26,29 +27,29 @@ class Circle(CRideModel):
         through_fields=('circle', 'user')
     )
 
-    #Stat
+    # Stat
     rides_offered = models.PositiveIntegerField(default=0)
     rides_taken = models.PositiveIntegerField(default=0)
 
     verified = models.BooleanField(
         'verified circle',
         default=False,
-        help_text = 'Verified circles are also know as official commnunities.'
+        help_text='Verified circles are also know as official commnunities.'
         )
 
     is_public = models.BooleanField(
         default=True,
-        help_text = 'Public circles are listed in the main page so everyone know about their existence.'
+        help_text='Public circles are listed in the main page so everyone know about their existence.'
         )
 
     is_limited = models.BooleanField(
         'limited',
         default=False,
-        help_text = 'Limited circles can grow up to a fixed number of members.'
+        help_text='Limited circles can grow up to a fixed number of members.'
         )
     members_limit = models.PositiveIntegerField(
-        default = 0,
-        help_text = 'If circle is limited, this will be the limit on the number of members.'
+        default=0,
+        help_text='If circle is limited, this will be the limit on the number of members.'
     )
 
     def __str__(self):
@@ -59,5 +60,3 @@ class Circle(CRideModel):
         """Meta class."""
 
         ordering = ['-rides_taken', '-rides_offered']
-
-

@@ -1,10 +1,11 @@
 """Profile Serializer"""
 
-#Django REST framework
+# Django REST framework
 from rest_framework import serializers
 
-#Models
+# Models
 from cride.users.models import Profile
+
 
 class ProfileModelSerializer(serializers.ModelSerializer):
     """Profile model serializer."""

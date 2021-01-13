@@ -1,13 +1,14 @@
 """Users Urls."""
 
-#Django
+# Django
 from django.urls import include, path
 
-#Django REST framwork
+# Django REST framwork
 from rest_framework.routers import DefaultRouter
 
-#Views
+# Views
 from .views import users as users_views
+
 
 router = DefaultRouter()
 router.register(r'users', users_views.UserViewSet, basename='users')

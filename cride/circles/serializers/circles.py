@@ -1,9 +1,9 @@
 """Circle serializers."""
 
-#Django REST Framework
+# Django REST Framework
 from rest_framework import serializers
 
-#Model
+# Model
 from cride.circles.models import Circle
 
 
@@ -22,7 +22,7 @@ class CircleModelSerializer(serializers.ModelSerializer):
 
         model = Circle
         fields = (
-            'name' , 'slug_name',
+            'name', 'slug_name',
             'about', 'picture',
             'rides_offered', 'rides_taken',
             'verified', 'is_public',

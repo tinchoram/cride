@@ -1,12 +1,13 @@
 """ User Model"""
 
-#django
+# django
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 
-#Utilities
+# Utilities
 from cride.utils.models import CRideModel
+
 
 class User(CRideModel, AbstractUser):
     """User model
@@ -15,16 +16,15 @@ class User(CRideModel, AbstractUser):
     """
     email = models.EmailField(
         'email address',
-        unique = True,
+        unique=True,
         error_messages={
-            'unique' : 'A user with that email already exist'
+            'unique': 'A user with that email already exist'
         }
     )
 
-
     phone_regex = RegexValidator(
-        regex =r'\+?1?\d{9,15}$',
-        message = 'phone number must be entered in the format: +999999999. Up to 15 digits allowed.'
+        regex=r'\+?1?\d{9,15}$',
+        message='phone number must be entered in the format: +999999999. Up to 15 digits allowed.'
     )
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
 

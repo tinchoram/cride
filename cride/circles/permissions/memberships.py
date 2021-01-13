@@ -1,10 +1,11 @@
 """Circles permission classes"""
 
-#Django REST Framwork
+# Django REST Framwork
 from rest_framework.permissions import BasePermission
 
-#Models
+# Models
 from cride.circles.models import Membership
+
 
 class IsActiveCircleMember(BasePermission):
     """Allow access only to cricle members.
@@ -23,6 +24,7 @@ class IsActiveCircleMember(BasePermission):
         except Membership.DoesNotExist:
             return False
         return True
+
 
 class IsAdminOrMembershipOwner(BasePermission):
     """
@@ -45,6 +47,7 @@ class IsAdminOrMembershipOwner(BasePermission):
         except Membership.DoesNotExist:
             return False
         return True
+
 
 class IsSelfMember(BasePermission):
     """Allow access only to member owners"""
